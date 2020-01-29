@@ -66,6 +66,7 @@ public class S3SinkConnectorConfig extends StorageSinkConnectorConfig {
 
   // S3 Group
   public static final String S3_BUCKET_CONFIG = "s3.bucket.name";
+  public static final String S3_BUCKET_DEFAULT = "default-bucket";
 
   public static final String SSEA_CONFIG = "s3.ssea.name";
   public static final String SSEA_DEFAULT = "";
@@ -181,6 +182,7 @@ public class S3SinkConnectorConfig extends StorageSinkConnectorConfig {
       configDef.define(
           S3_BUCKET_CONFIG,
           Type.STRING,
+          S3_BUCKET_DEFAULT,
           new BucketValidator(),
           Importance.HIGH,
           "The S3 Bucket.",
@@ -623,7 +625,6 @@ public class S3SinkConnectorConfig extends StorageSinkConnectorConfig {
   }
 
   private static class BucketValidator implements ConfigDef.Validator {
-
     @Override
     public void ensureValid(String name, Object bucket) {
       String bucketName = ((String) bucket).toLowerCase().trim();
@@ -635,11 +636,6 @@ public class S3SinkConnectorConfig extends StorageSinkConnectorConfig {
                 bucketName,
                 "Invalid bucket name. Bucket name does not follow AWS guidelines.");
       }
-    }
-
-    @Override
-    public String toString() {
-      return "BucketValidator";
     }
   }
 
